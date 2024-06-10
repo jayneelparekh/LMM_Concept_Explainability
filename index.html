@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" class="fontawesome-i2svg-active fontawesome-i2svg-complete">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script type="text/javascript"
+  src="https://www.maths.nottingham.ac.uk/plp/pmadw/LaTeXMathML.js">
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Multimodal concept explainability for LMMs</title>
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6">
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+      <script defer="" src="css/fontawesome.all.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      body {
+        font-size:16px;
+        margin:80px auto;
+        width:auto;
+        max-width:950px;
+      }
+
+      hr {
+        border:0;
+        height:1.0px;
+        background-image:linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+      }
+
+      .gap-30 {
+      width:100%;
+      height:30px;
+      }
+
+      .gap-20 {
+      width:100%;
+      height:20px;
+      }
+
+      .gap-10 {
+      width:100%;
+      height:10px;
+      }
+
+      .gap-5 {
+      width:100%;
+      height:5px;
+      }
+      .paper {
+        max-width: 700px;
+      }
+      @media (max-width: 910px) {
+        .paper {
+          max-width: 500px;
+        }
+      }
+      @media (max-width: 610px) {
+        .paper {
+          max-width: 300px;
+        }
+      }
+    </style>
+  </head>
+
+  <div class="container">
+  <body>
+
+    <center><span style="font-size:32px">
+        A Concept-Based Explainability Framework <br>for Large Multimodal Models
+    </span></center>
+    <div class="gap-20"></div>
+
+    <!---------------------  authors --------------------->
+    <div class="row">
+        &emsp; &emsp; &emsp; &emsp;
+        <p>
+          <a href="https://jayneelparekh.github.io/"><span style="font-size:19px; color:brown">Jayneel Parekh</span></a>
+          &emsp; &emsp;
+          <a href="https://pegah-kh.github.io/"><span style="font-size:19px; color:brown">Pegah Khayatan</span></a>
+          &emsp; &emsp;
+          <a href="https://geogroup.ai/author/mustafa-shukor/"><span style="font-size:19px; color:brown">Mustafa Shukor</span></a>
+          &emsp; &emsp;
+          <a href="https://sites.google.com/site/alasdairnewson/"><span style="font-size:19px; color:brown">Alasdair Newson</span></a>
+          &emsp; &emsp;
+          <a href="https://cord.isir.upmc.fr/"><span style="font-size:19px; color:brown">Matthieu Cord</span></a>
+        </p>
+    </div>
+    
+    <div class="row">
+        &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+      <div class="col-md-5">
+        <center><span style="font-size:18px">ISIR, Sorbonne Université, France
+        </span></center>
+      </div> 
+    </div>
+
+    <br>
+
+      <center>
+        <span style="font-size:18px">
+          [<a href="https://arxiv.org/abs/2310.05916" style="color:brown">Paper</a>]
+          &emsp; 
+          [<a>Code (to be added soon)</a>]&nbsp;
+        </span>
+        </center>
+    
+    <div class="gap-10"></div>
+    <hr>
+    
+
+    <!--------------------- abstract --------------------->
+    <div class="gap-20"></div>
+    <center><b><span style="font-size:28px">Abstract</span></b><br></center>
+    <div class="gap-10"></div>
+    <p> 
+      Large multimodal models (LMMs) combine unimodal encoders and large language models (LLMs) to perform multimodal tasks. Despite recent advancements towards the interpretability of these models, understanding internal representations of LMMs remains largely a mystery. In this paper, we present a novel framework for the interpretation of LMMs. We propose a dictionary learning based approach, applied to the representation of tokens. The elements of the learned dictionary correspond to our proposed concepts. We show that these concepts are well semantically grounded in both vision and text. Thus we refer to these as "multi-modal concepts". 
+      We qualitatively and quantitatively evaluate the results of the learnt concepts. We show that the extracted multimodal concepts are useful to interpret representations of test samples. Finally, we evaluate the disentanglement between different concepts and the quality of grounding concepts visually and textually.
+    </p>
+    <div class="gap-5"></div>
+
+    <hr>
+    <div class="gap-20"></div>
+    <center><b><span style="font-size:28px">Method</span></b><br></center>
+    <div class="gap-20"></div>
+    <embed width="98%" src="images/sys_fig_v4.jpg">
+    <p></p>
+    <p><i><b>
+      LMM multimodal concept extraction & grounding.</b> Given a pretrained LMM for captioning and a target token (for eg. `Dog'), our method extracts internal representations of \(f\) about \(t\), across many images. 
+      These representations are collated into a matrix \( \mathbf{Z} \). We linearly decompose \( \mathbf{Z} \) to learn a concept dictionary \( \mathbf{U} \) and its coefficients/activations \( \mathbf{V} \). 
+      Each concept \(u_k \in \mathbf{U}\), is multimodally grounded in both visual and textual domains. For text grounding, we compute the set of most probable words \( \mathbf{T}_k \) by decoding \(u_k\) through the unembedding matrix \(W_U\). 
+      Visual grounding \( \mathbf{X}_{k, MAS} \) is obtained via \(v_k\) as the set of most activating samples.
+      </i></p>
+  
+    <!--------------------- content --------------------->
+    <!-- <div class="gap-20"></div> -->
+    <div class="gap-10"></div>
+    <center><b><span style="font-size:18px">Representation extraction</span></b></center>
+    <div class="gap-10"></div>
+    <p>
+      To extract relevant representations from the LMM about \(t\) that encode meaningful semantic information, we first determine a set of images \(\mathbf{X}\) from captioning dataset \(\mathcal{S}=\{(X_i, y_i)\}_{i=1}^{N}\) for extraction. 
+      We consider the samples where \(t\) is predicted as part of the predicted caption \(\hat{y}\), and additionally also present in the ground-truth caption: 
+    </p>
+    <center>
+      \(\mathbf{X} = \{ X_i \;|\; t \in f(X_i) \;\text{and}\; t \in y_i \;\text{and}\; (X_i, y_i) \in \mathcal{S}\}.\)
+    </center>
+    <br>
+    <p>
+      Given any \(X \in \mathbf{X}\), we extract the token representation \(h_{(L)}^p\) from a deep layer \(L\), at the first position in the predicted caption \(p\), such that \(\hat{y}^p = t\). 
+      These representations are stacked as columns of the matrix \(\mathbf{Z} = [z_1,...,z_M] \in \mathbb{R}^{B \times M}\)
+    </p>
+    
+  
+    <div class="gap-10"></div>
+    <center><b><span style="font-size:18px">Decomposing the representation</span></b></center>
+    <div class="gap-10"></div>
+    <p>
+      The representation matrix \(\mathbf{Z}\) is decomposed as product of two low-rank matrices \(\mathbf{Z} \approx \mathbf{U}\mathbf{V}, \mathbf{U} \in \mathbb{R}^{B \times K}, \mathbf{V} \in \mathbb{R}^{K \times M}\). 
+      We employ Semi-NMF with sparsity of activations, which allows the matrix \(\mathbf{Z}\) and basis vectors \(\mathbf{U}\) to contain mixed values, and forces the activations \(\mathbf{V}\) to be non-negative.
+    </p>
+    <center>
+      \( \mathbf{U}^*, \mathbf{V}^* = \arg \min_{\mathbf{U}, \mathbf{V}} \; ||\mathbf{Z} - \mathbf{U}\mathbf{V}||_F^2 + \lambda||\mathbf{V}||_1 \;\;\;\;  s.t.  \; \mathbf{V} \geq 0, \; \text{and} \;||u_k||_2 \leq 1 \; \forall k \in \{1, ..., K\} \)
+    </center>
+    <br>
+    <p>
+      Given any image \(X\) where token \(t\) is predicted by \(f\), activations of concept dictionary \(\mathbf{U}^*\) for given \(X\), are denoted as \(v(X) \in \mathbb{R}^K\). 
+      To compute them, we project the corresponding token representation for \(X, z_X \in \mathbb{R}^B\) on \(\mathbf{U}^*\). 
+      Precisely, \(v(X) = \arg\min_{v \geq 0} ||z_X - \mathbf{U}^*v||_2^2 + \lambda||v||_1\). The activation of \(u_k \in \mathbf{U}^*\) is denoted as \(v_k(X) \in \mathbb{R}\).
+    </p>
+    
+    <div class="gap-10"></div>
+  <center><b><span style="font-size:18px">Multimodal concept grounding</span></b></center>
+    <div class="gap-10"></div>
+    <p>
+      Given the learnt dictionary \(\mathbf{U}^*\) and corresponding activations \(\mathbf{V}^*\), we ground the understanding of any given concept vector \(u_k, k \in \{1, ..., K\}\) in the visual and textual domains. For visual grounding, we use prototyping to select input images (among the decomposed samples), that maximally activate \(u_k\). 
+      Given the number of samples for visualization \(N_{MAS}\), the set of maximum activating samples (MAS) for component \(u_k\), denoted as \(\mathbf{X}_{k, MAS}\) is:
+      <center>
+        \( \mathbf{X}_{k, MAS} = \arg\max_{\hat{X} \subset \mathbf{X}, |\hat{X}| = N_{MAS}} \sum_{X \in \hat{X}} |v_k(X)|. \)
+      </center>
+      <br>
+      For grounding in textual domain, we use the unembedding layer to map \(u_k\) to the token vocabulary space \(\mathcal{Y}\), i.e. extract the tokens with highest probability in \(W_U u_k\). 
+      The final set of words is referred to as grounded words for concept \(u_k\) and denoted as \(\mathbf{T}_k\). 
+      An example of multimodal grounding of a concept extracted for token ``Dog'' in vision (5 most activating samples) and text (top 5 decoded words) is shown below.
+    </p>
+      <center> <img width="80%" src="images/grounding_2_v3.png"> </center>
+
+      <hr>
+      <div class="gap-20"></div>
+      <center><b><span style="font-size:28px">Experiments</span></b><br></center>
+      <div class="gap-20"></div>
+      Our experiments are the <a href="https://arxiv.org/abs/2403.13499">DePALM</a> model that is trained for captioning task on COCO dataset. 
+      The model consists of a frozen ViT-L/14 CLIP encoder as the visual encoder. The language model $f_{LM}$ is a frozen OPT-6.7B. 
+      Baselines include systems ablating different parts of the pipeline (Rnd-words, Noise-Imgs), a primitive strategy for decomposition (Simple), and variants of our method with different decomposition (PCA, K-Means).
+
+      <div class="gap-10"></div>
+    <center><b><span style="font-size:18px">Understanding representations during inference</span></b></center>
+      <div class="gap-10"></div>
+      We evaluate the use of learnt concept dictionary to understand representations of test samples by computing (a) CLIPScore correspondence between test image \(X\) and grounded words for most activating concepts, and (b) BERTScore between ground-truth caption of \(X\) and grounded words for most activating concepts.
+      <center> <img width="80%" src="images/inference_tab.png"> </center>
+      <br>
+      We also evaluate the overlap/entanglement between text grounding of concept dictionary for different decomposition:
+      <br>
+      <center> \(  \text{Overlap}(\mathbf{U}^*) = \frac{1}{K} \sum_k \text{Overlap}(u_k), \quad \text{Overlap}(u_k) = \frac{1}{(K-1)} \sum_{l=1, l\neq k}^{K} \frac{|\mathbf{T}_l \cap \mathbf{T}_k|}{|\mathbf{T}_k|} \) </center>
+      <br>
+      <center> <img width="35%" src="images/overlap_tab.png"> </center>
+      <br>Overall Semi-NMF provides the best balance between learning disentangled dictionaries useful to understand test representations.
+      <div class="gap-10"></div>
+
+      <div class="gap-10"></div>
+    <center><b><span style="font-size:18px">Quality of multimodal visualization</span></b></center>
+      Then we estimate the quality of multimodal grounding for visualization by caluclating CLIPScore/BERTScore correspondence between the maximum activating images and grounded words.
+      The results indicate that compared to random words, the grounded words correspond significantly more to the content of visual grounding (maximum activating samples).
+      <br>
+      <center> <img width="60%" src="images/grounding_eval.png"> </center>
+      <div class="gap-10"></div>
+
+      <div class="gap-10"></div>
+    <center> <b><span style="font-size:18px">Behaviour across layers</span></b> </center>
+      We also study the quality of learnt concept dictionaries across layers by evaluating the visual-text correspondence of their multimodal grounding.
+      The correspondence of visual and text grounding of extracted concepts starts appearing when decomposing representations somewhere around the middle to late layers. 
+      <br>
+      <center> <img width="60%" src="images/layer_exp.png"> </center>
+      <div class="gap-10"></div>
+
+    <hr>
+    <div class="gap-20"></div>
+      <center><b><span style="font-size:28px">Qualitative visualizations</span></b><br></center>
+    <div class="gap-20"></div>
+
+      <div class="gap-10"></div>
+    <center> <b><span style="font-size:18px">Multimodal concept dictionaries (Dog, Cat)</span></b> </center>
+      <div class="gap-10"></div>
+      <center>\(K = 20\) concepts learnt for token 'Dog'.</center> 
+      <center> <img width="100%" src="images/hey_dog.jpg"> </center>
+      <br> <br>
+      <center>\(K = 20\) concepts learnt for token 'Cat'.</center> 
+      <center> <img width="100%" src="images/hey_cat.jpg"> </center>
+
+
+      <div class="gap-20"></div>
+      <br>
+    <center> <b><span style="font-size:18px">Understanding test representations)</span></b> </center>
+      <div class="gap-10"></div>
+      <center> <img width="100%" src="images/local_intp_fig_v2.jpg"> </center>
+
+      
+
+      
+    
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+
+</html>
